@@ -23,6 +23,7 @@ function UserForm() {
       />
       <Input
         value="Zhora"
+        pageTitleChange
       />
     </div>
   );

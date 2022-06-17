@@ -15,4 +15,5 @@ export interface WithValidation {
 export interface InputProps {
   value: string;
   checker?: Checker;
+  pageTitleChange? : boolean
 }
