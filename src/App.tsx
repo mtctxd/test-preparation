@@ -1,12 +1,9 @@
 import './App.css';
-import Input from './components/Input/Input';
+import UserForm from './components/UserFrom/UserFrom';
 
 function App() {
   return (
-    <>
-      <Input value='Harry'/>
-      <Input value='Potter'/>
-    </>
+    <UserForm />
   );
 }
 
