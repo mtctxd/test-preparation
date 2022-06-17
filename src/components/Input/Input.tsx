@@ -1,37 +1,16 @@
-import { FC, useState } from 'react';
-import useTextInput from '../../hooks/useTextInput';
+import React from 'react';
+import useInput from '../../hooks/useInput';
 
-export interface InputProps {
-  fieldName: string;
+interface Props {
   value: string;
-  type?: string;
-  isRequired?: boolean;
-  placeholder?: string;
-  checkCondition?: (value: string) => boolean;
 }
 
-const Input = (props: InputProps) => {
-  const [condition, setCondition] = useState(true);
-  const blurHandle = (value: string) => {
-    if (props.checkCondition) {
-      console.log(props.checkCondition(value));
-      setCondition(props.checkCondition(value));
-    }
-  }
-  const name = useTextInput({
-    props
+const Input = ({ value }: Props) => {
+  const name = useInput({
+    initialValue: value,
   });
 
-
-
-  return (
-    <fieldset>
-      <legend>
-        {condition.toString()}
-      </legend>
-      <input {...name} onBlur={() => blurHandle(name.value)}/>
-    </fieldset>
-  );
+  return <input {...name} />;
 };
 
 export default Input;
