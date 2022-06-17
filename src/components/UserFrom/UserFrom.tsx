@@ -4,6 +4,7 @@ import style from './UserForm.module.css';
 
 function UserForm() {
   const checkLength = (value: string) => value.trim().length > 3;
+  const checkIfNumber = (value: string) => !isNaN(Number(value))
 
   return (
     <div className={style.container}>
@@ -24,6 +25,13 @@ function UserForm() {
       <Input
         value="Zhora"
         pageTitleChange
+      />
+      <Input
+        value="123з"
+        checker={{
+          message: 'only numbers allowed',
+          validatorFunction: checkIfNumber,
+        }}
       />
     </div>
   );

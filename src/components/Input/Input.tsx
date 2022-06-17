@@ -10,15 +10,11 @@ const Input = ({ value, checker, pageTitleChange }: InputProps) => {
 
   useChanegTitle(pageTitleChange, name.value);
 
-  if (checker) {
     return withValidation({
         checker,
         value: name.value,
         Component: <input {...name} />
     });
-  }
-
-  return <input {...name} />;
 };
 
 export default Input;

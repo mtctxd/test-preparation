@@ -9,7 +9,7 @@ export interface WithValidation {
   value: string;
 //   Component: FC | ReactComponent;
   Component: any;
-  checker: Checker;
+  checker?: Checker;
 }
 
 export interface InputProps {
