@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from '@react-three/fiber';
-import { FC, useMemo, useRef} from 'react';
+import { FC, useMemo, useRef } from 'react';
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
@@ -7,45 +7,64 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-interface SphereProps {
+const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
+
+interface BubleProps {
   position: number[];
-  speed?: number;
+  size?: {
+    initial?: number;
+    multiplyer?: number;
+  };
 }
 
-const Sphere: FC<SphereProps> = ({ position, speed = 0.5 }) => {
+const Buble: FC<BubleProps> = ({
+  position,
+  size = {
+    initial: getRandomInt(0.5, 1),
+    multiplyer: getRandomInt(1, 1.5),
+  },
+}) => {
   const meshRef = useRef<any>(null);
 
   useFrame(() => {
     if (meshRef.current) {
-      if (meshRef.current.position.z > 10) {
-        meshRef.current.position.z = -300;
+      if (meshRef.current.position.y === 50) {
+        meshRef.current.position.y = -50;
+        meshRef.current.position.x = getRandomInt(-50, 50);
+        meshRef.current.position.z = getRandomInt(-20, -5);
       }
 
-      meshRef.current.position.z += speed;
+      meshRef.current.position.y += 0.5;
+      meshRef.current.scale.set(
+        size.initial,
+        size.initial,
+        size.initial,
+      )
+
+        // console.log(meshRef.current.scale);
     }
   });
 
   return (
-    <mesh position={position} ref={meshRef}>
+    <mesh position={position} scale={size.initial} ref={meshRef}>
       <sphereBufferGeometry args={[1, 8, 8]} />
       <meshStandardMaterial color={'blue'} />
     </mesh>
   );
 };
 
-interface Props {
+interface BublesProps {
   particlesNumber?: number;
-  speed?: number;
 }
 
-const StarWarp: FC<Props> = ({ particlesNumber = 5000, speed = 0.5 }) => {
+const Bubles: FC<BublesProps> = ({ particlesNumber = 100 }) => {
   const positionsArray: any = useMemo(() => {
     return new Array(particlesNumber)
       .fill([])
       .map(() => [
-        getRandomInt(-500, 500),
-        getRandomInt(-500, 500),
-        getRandomInt(-300, 5),
+        getRandomInt(-100, 100),
+        getRandomInt(-50, 50),
+        getRandomInt(-20, -5),
       ]);
   }, [particlesNumber]);
 
@@ -60,10 +79,9 @@ const StarWarp: FC<Props> = ({ particlesNumber = 5000, speed = 0.5 }) => {
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         {positionsArray.map((position: number[]) => (
-          <Sphere
+          <Buble
             position={position}
             key={'N' + position[0] + position[1] + position[2]}
-            speed={speed}
           />
         ))}
       </Canvas>
@@ -71,4 +89,4 @@ const StarWarp: FC<Props> = ({ particlesNumber = 5000, speed = 0.5 }) => {
   );
 };
 
-export default StarWarp;
+export default Bubles;
